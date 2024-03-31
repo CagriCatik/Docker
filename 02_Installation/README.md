@@ -11,7 +11,6 @@ Follow these steps to install Docker on your computer:
   ```ps1
   winget install -e --id Docker.DockerDesktop
   ```
-
 * On Linux
 
   ```sh
