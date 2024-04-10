@@ -39,9 +39,3 @@ Once the parent Node.js image is downloaded, it can be executed as a container t
 
    - Once the container is running, it can be interacted with through a command-line interface.
    - Execute Linux commands or utilize Node.js functionalities within the container environment.
-
-## Conclusion
-
-Understanding parent images and leveraging Docker Hub's repository of pre-made images is fundamental in Docker development. By fetching appropriate parent images, developers can streamline the process of creating custom Docker images tailored to their project requirements.
-
-In the next lesson, we will delve into creating custom Docker images using a Node.js parent image as the base layer, utilizing a Dockerfile. Stay tuned for an in-depth exploration of Dockerfile configurations and image customization.

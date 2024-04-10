@@ -28,6 +28,7 @@ In this tutorial, we'll walk through the process of sharing Docker images on Doc
 
 - Make sure you're in the directory containing the Dockerfile for the image you want to share.
 - Build the Docker image using the `docker build` command:
+
   ```
   docker build -t <username>/<repository_name>:<tag> .
   ```
@@ -37,12 +38,14 @@ In this tutorial, we'll walk through the process of sharing Docker images on Doc
 #### 4. Push the Image to Docker Hub
 
 - Log in to Docker Hub from the command line:
+
   ```
   docker login
   ```
 
   Enter your Docker Hub username and password when prompted.
 - Push the image to Docker Hub using the `docker push` command:
+
   ```
   docker push <username>/<repository_name>:<tag>
   ```
@@ -64,10 +67,6 @@ In this tutorial, we'll walk through the process of sharing Docker images on Doc
   ```
   docker run <username>/<repository_name>:<tag>
   ```
-
-### Conclusion:
-
-Congratulations! You've successfully shared your Docker image on Docker Hub, making it accessible to others. Docker Hub provides a convenient way to distribute containerized applications and collaborate with others in the Docker community.
 
 ### Additional Resources:
 

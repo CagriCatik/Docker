@@ -83,7 +83,6 @@
   docker start my_app_container_2
   ```
 
-
 ## Example: Running a Node.js Application in Docker
 
 ### 1. Setting up the Node.js Application
@@ -187,7 +186,3 @@ Using CLI:
 ```bash
 docker start my_node_container
 ```
-
-### Conclusion
-
-You've successfully built and run a Docker container hosting a Node.js application. By following this example, you've learned how to start, stop, and restart Docker containers both through Docker Desktop GUI and the command line interface (CLI). Experiment further with Docker to explore more advanced features and optimize your containerized applications.

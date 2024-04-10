@@ -163,8 +163,3 @@ And delete them when no longer needed:
 docker rm my_container
 docker image rm my_flask_app:v1
 ```
-
-## Conclusion
-
-In this tutorial, we covered the basics of managing Docker images and containers, including deleting them and adding versions/tags to images. Understanding these concepts is crucial for effective Docker usage. This example demonstrates how to create and manage Docker images and containers. By adding versions to images, you can easily manage different versions of your applications and ensure consistent deployments.
- 

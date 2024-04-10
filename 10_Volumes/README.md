@@ -28,9 +28,3 @@ Finally, we'll test our setup by making changes to the source code within the pr
 2. **Modify Docker Run Command**: Adjust the Docker run command to include volume mapping. Map the project folder on the host machine to the `app` folder inside the container.
 3. **Handle Node Modules**: Address potential issues with the `node_modules` folder by managing it separately using an anonymous volume.
 4. **Test Changes**: Make changes to the source code within the project folder and verify that these changes are reflected in the running application.
-
-### Conclusion
-
-In conclusion, volumes in Docker provide a powerful mechanism for managing data persistence and sharing between containers and the host machine. By incorporating volume mapping into our Docker workflow, we can streamline the development process and ensure that changes made to the source code are reflected in the running application without the need for frequent image rebuilds.
-
-This tutorial has covered the essential concepts and steps for implementing volumes in Docker based on the content of the YouTube video "Docker Crash Course #10 - Volumes." Experiment with volume mapping in your Docker projects to optimize development workflows and enhance productivity.

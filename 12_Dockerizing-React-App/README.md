@@ -83,7 +83,3 @@ docker-compose up
 ## Step 7: Verify
 
 Once the containers are up and running, you can verify the setup by accessing the React app in your browser at `http://localhost:3000`. Ensure that the React app is fetching data from the API service correctly.
-
-## Conclusion
-
- You've successfully dockerized a React app using Docker Compose. Dockerizing frontend applications helps streamline development and deployment processes, ensuring consistency across different environments. In the next steps, you can explore further customization options and deployment strategies, such as pushing the Docker images to Docker Hub for sharing with others.

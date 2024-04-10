@@ -1,6 +1,8 @@
 # Docker Tutorial 🐳
 
-Here, you'll find a comprehensive series of tutorials designed by [Net Ninja](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) to help you grasp the fundamentals of Docker and explore its various features. Each directory in this repository corresponds to a specific topic covered in the tutorial series.
+Here, you'll find a comprehensive series of tutorials designed by [Net Ninja](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) to help you grasp the fundamentals of Docker and explore its various features. 
+
+Each directory in this repository corresponds to a specific topic covered in the tutorial series.
 
 ## Table of Contents
 
@@ -16,6 +18,7 @@ Here, you'll find a comprehensive series of tutorials designed by [Net Ninja](ht
 10. [Volumes](./10_Volumes/README.md): Working with volumes in Docker 💾
 11. [Docker-Compose](./11_Docker-Compose/README.md): Introduction to Docker Compose 🎭
 12. [Dockerizing-React-App](./12_Dockerizing-React-App/README.md): Dockerizing a React application ⚛️🐳
-13. [Sharing-Images-on-Hub](./13_Sharing-Images-on-Hub/README.md): Sharing Docker images on Docker Hub 🌐
+13. [Dockerizing-ROS2](./13_Dockerizing-ROS2/README.md): Dockerizing ROS2 🤖🐳
+14. [Sharing-Images-on-Hub](./14_Sharing-Images-on-Hub/README.md): Sharing Docker images on Docker Hub 🌐
 
 Each directory contains relevant materials and instructions for the respective topic! 🎉
