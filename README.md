@@ -1,6 +1,6 @@
 # Docker Tutorial 🐳
 
-Here, you'll find a comprehensive series of tutorials designed by [Net Ninja](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) to help you grasp the fundamentals of Docker and explore its various features. 
+Here, you'll find a comprehensive series of tutorials designed by [Net Ninja](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) to help you grasp the fundamentals of Docker and explore its various features.
 
 Each directory in this repository corresponds to a specific topic covered in the tutorial series.
 

@@ -1,4 +1,4 @@
-# Docker Crash Course: Layer Caching
+#  Layer Caching
 
 This tutorial covers the concept of layer caching in Docker, its significance in speeding up image builds, and how to implement it effectively in your Dockerfiles.
 
