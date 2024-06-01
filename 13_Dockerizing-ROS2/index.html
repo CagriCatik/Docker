@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Dockerizing ROS2</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../01_Intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../02_Installation/index.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../03_Images-Containers/index.html"><strong aria-hidden="true">3.</strong> Images Containers</a></li><li class="chapter-item expanded "><a href="../04_Parent-Images/index.html"><strong aria-hidden="true">4.</strong> Parent Images</a></li><li class="chapter-item expanded "><a href="../05_Dockerfile/index.html"><strong aria-hidden="true">5.</strong> Dockerfile</a></li><li class="chapter-item expanded "><a href="../06_Docker-Ignore/index.html"><strong aria-hidden="true">6.</strong> Docker Ignore</a></li><li class="chapter-item expanded "><a href="../07_Start-Stop-Containers/index.html"><strong aria-hidden="true">7.</strong> Start Stop Container</a></li><li class="chapter-item expanded "><a href="../08_Layer-Caching/index.html"><strong aria-hidden="true">8.</strong> Layer Caching</a></li><li class="chapter-item expanded "><a href="../09_Managing-Images_Containers/index.html"><strong aria-hidden="true">9.</strong> Managing Images Containers</a></li><li class="chapter-item expanded "><a href="../10_Volumes/index.html"><strong aria-hidden="true">10.</strong> Volumes</a></li><li class="chapter-item expanded "><a href="../11_Docker-Compose/index.html"><strong aria-hidden="true">11.</strong> Docker Compose</a></li><li class="chapter-item expanded "><a href="../12_Dockerizing-React-App/index.html"><strong aria-hidden="true">12.</strong> Dockerizing React App</a></li><li class="chapter-item expanded "><a href="../13_Dockerizing-ROS2/index.html" class="active"><strong aria-hidden="true">13.</strong> Dockerizing ROS2</a></li><li class="chapter-item expanded "><a href="../14_Sharing-Images-on-Hub/index.html"><strong aria-hidden="true">14.</strong> Sharing Images on Hub</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="dockerizing-ros2"><a class="header" href="#dockerizing-ros2">Dockerizing ROS2</a></h1>
+<h2 id="step-1-set-up-ros-2-workspace"><a class="header" href="#step-1-set-up-ros-2-workspace">Step 1: Set up ROS 2 Workspace</a></h2>
+<p>Assuming you have a ROS 2 workspace with your packages and dependencies configured, ensure that it is working correctly before proceeding.</p>
+<h2 id="step-2-create-a-dockerfile"><a class="header" href="#step-2-create-a-dockerfile">Step 2: Create a Dockerfile</a></h2>
+<p>Create a <code>Dockerfile</code> in the root directory of your ROS 2 workspace. This file will contain instructions for building your Docker image. Here's a detailed example:</p>
+<pre><code class="language-Dockerfile"># Use ROS 2 Foxy base image
+FROM ros:foxy
+
+# Install additional dependencies (if needed)
+RUN apt-get update &amp;&amp; apt-get install -y \
+    ros-foxy-desktop \
+    # Add your additional dependencies here \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Set up workspace
+WORKDIR /ros2_ws
+COPY . /ros2_ws
+
+# Build ROS 2 workspace
+RUN . /opt/ros/foxy/setup.sh &amp;&amp; \
+    colcon build --symlink-install
+
+# Source ROS 2 setup file
+RUN echo "source /ros2_ws/install/setup.bash" &gt;&gt; /root/.bashrc
+</code></pre>
+<p>Replace <code>ros:foxy</code> with the appropriate ROS 2 base image tag according to your ROS 2 version. Ensure to add any additional dependencies required by your ROS 2 packages in the <code>RUN apt-get install</code> command.</p>
+<h2 id="step-3-build-the-docker-image"><a class="header" href="#step-3-build-the-docker-image">Step 3: Build the Docker Image</a></h2>
+<p>Navigate to the directory containing your <code>Dockerfile</code> and run the following command to build your Docker image:</p>
+<pre><code class="language-bash">docker build -t my_ros2_image .
+</code></pre>
+<h2 id="step-4-run-the-docker-container"><a class="header" href="#step-4-run-the-docker-container">Step 4: Run the Docker Container</a></h2>
+<p>Once the image is built, you can run a Docker container using the following command:</p>
+<pre><code class="language-bash">docker run -it --rm my_ros2_image
+</code></pre>
+<p>This command will start a new container based on your ROS 2 image, and you will be dropped into a shell inside the container.</p>
+<h2 id="step-5-test-your-ros-2-application"><a class="header" href="#step-5-test-your-ros-2-application">Step 5: Test Your ROS 2 Application</a></h2>
+<p>Inside the Docker container, navigate to your ROS 2 workspace and run your ROS 2 nodes or launch files as you would normally. Ensure that everything works as expected within the Docker environment.</p>
+<h2 id="step-6-persisting-data-optional"><a class="header" href="#step-6-persisting-data-optional">Step 6: Persisting Data (Optional)</a></h2>
+<p>If you need to persist data between container runs, such as log files or generated data, you can use Docker volumes or bind mounts to mount host directories into the container. Modify your <code>docker run</code> command to include volume mounts as needed.</p>
+<h2 id="step-7-distribute-your-docker-image-optional"><a class="header" href="#step-7-distribute-your-docker-image-optional">Step 7: Distribute Your Docker Image (Optional)</a></h2>
+<p>Once you have verified that your ROS 2 application works as expected within the Docker container, you can distribute your Docker image to others or deploy it to cloud platforms for production use.</p>
+<p>That's it! You've successfully dockerized your ROS 2 application. Dockerizing your ROS 2 workflow provides several benefits, including portability, reproducibility, and scalability, making it easier to develop and deploy robotics applications in various environments.</p>
+<h2 id="tips--tricks"><a class="header" href="#tips--tricks">Tips &amp; Tricks</a></h2>
+<p>When containerizing an application like ROS2 (Robot Operating System 2) using Docker, organizing your folder structure optimally can help maintain clarity, ease of management, and scalability. Here's a suggested folder structure:</p>
+<pre><code class="language-sh">ros2_docker_app/
+│
+├── Dockerfile
+├── docker-compose.yml (optional, for multi-container setups)
+│
+├── app/
+│   ├── src/             # ROS2 source code
+│   ├── launch/          # ROS2 launch files
+│   ├── config/          # Configuration files
+│   └── ...
+│
+├── build/               # Build artifacts (optional, if building inside container)
+└── ...
+</code></pre>
+<p>Explanation:</p>
+<ol>
+<li>
+<p><strong>Dockerfile</strong>: This file contains instructions for building your Docker image. It specifies the base image, dependencies, environment variables, and commands needed to set up your ROS2 application within the container.</p>
+</li>
+<li>
+<p><strong>docker-compose.yml</strong> (optional): If your ROS2 application consists of multiple containers (e.g., separate containers for different nodes), you can use <code>docker-compose</code> to manage them. This YAML file defines the services, networks, and volumes needed for your multi-container setup.</p>
+</li>
+<li>
+<p><strong>app/</strong>: This directory contains your ROS2 application code.</p>
+<ul>
+<li><strong>src/</strong>: Place your ROS2 package(s) source code here. Organize packages as per ROS2 conventions.</li>
+<li><strong>launch/</strong>: Store ROS2 launch files here. Launch files define how nodes are executed and connected.</li>
+<li><strong>config/</strong>: Configuration files specific to your ROS2 application, such as YAML files defining parameters.</li>
+</ul>
+</li>
+<li>
+<p><strong>build/</strong> (optional): If you choose to build your ROS2 application inside the Docker container, you may want to have a directory to store build artifacts. This can help speed up subsequent builds by caching intermediate build layers.</p>
+</li>
+</ol>
+<p>Additional Tips:</p>
+<ul>
+<li><strong>Keep Dockerfile Minimal</strong>: Try to keep your Dockerfile as minimal as possible by using a base image that includes ROS2 and installing only additional dependencies specific to your application.</li>
+<li><strong>Use Docker Volumes</strong>: Utilize Docker volumes to mount host directories into the container, especially for development workflows. This allows you to edit code on your host machine and see changes reflected inside the container without rebuilding.</li>
+<li><strong>Separate Environments</strong>: Consider having separate Dockerfiles or Docker Compose configurations for development, testing, and production environments to manage dependencies and configurations accordingly.</li>
+<li><strong>Version Control</strong>: Ensure that your entire Docker setup, including Dockerfile(s), docker-compose.yml, and application code, is version controlled using a tool like Git. This helps in collaboration and reproducibility.</li>
+</ul>
+<p>By following this folder structure and best practices, you can efficiently containerize your ROS2 application using Docker while maintaining scalability and ease of management.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../12_Dockerizing-React-App/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../14_Sharing-Images-on-Hub/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../12_Dockerizing-React-App/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../14_Sharing-Images-on-Hub/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

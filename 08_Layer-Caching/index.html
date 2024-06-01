@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Layer Caching</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../01_Intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../02_Installation/index.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../03_Images-Containers/index.html"><strong aria-hidden="true">3.</strong> Images Containers</a></li><li class="chapter-item expanded "><a href="../04_Parent-Images/index.html"><strong aria-hidden="true">4.</strong> Parent Images</a></li><li class="chapter-item expanded "><a href="../05_Dockerfile/index.html"><strong aria-hidden="true">5.</strong> Dockerfile</a></li><li class="chapter-item expanded "><a href="../06_Docker-Ignore/index.html"><strong aria-hidden="true">6.</strong> Docker Ignore</a></li><li class="chapter-item expanded "><a href="../07_Start-Stop-Containers/index.html"><strong aria-hidden="true">7.</strong> Start Stop Container</a></li><li class="chapter-item expanded "><a href="../08_Layer-Caching/index.html" class="active"><strong aria-hidden="true">8.</strong> Layer Caching</a></li><li class="chapter-item expanded "><a href="../09_Managing-Images_Containers/index.html"><strong aria-hidden="true">9.</strong> Managing Images Containers</a></li><li class="chapter-item expanded "><a href="../10_Volumes/index.html"><strong aria-hidden="true">10.</strong> Volumes</a></li><li class="chapter-item expanded "><a href="../11_Docker-Compose/index.html"><strong aria-hidden="true">11.</strong> Docker Compose</a></li><li class="chapter-item expanded "><a href="../12_Dockerizing-React-App/index.html"><strong aria-hidden="true">12.</strong> Dockerizing React App</a></li><li class="chapter-item expanded "><a href="../13_Dockerizing-ROS2/index.html"><strong aria-hidden="true">13.</strong> Dockerizing ROS2</a></li><li class="chapter-item expanded "><a href="../14_Sharing-Images-on-Hub/index.html"><strong aria-hidden="true">14.</strong> Sharing Images on Hub</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="layer-caching"><a class="header" href="#layer-caching">Layer Caching</a></h1>
+<p>This tutorial covers the concept of layer caching in Docker, its significance in speeding up image builds, and how to implement it effectively in your Dockerfiles.</p>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Layer caching is a technique used in Docker to optimize the build process by reusing intermediate layers from previous builds, thereby reducing build times significantly.</p>
+<h3 id="understanding-docker-layers"><a class="header" href="#understanding-docker-layers">Understanding Docker Layers</a></h3>
+<p>Every line in a Dockerfile creates a new layer in the Docker image. Each layer represents a change made to the image, such as adding files, installing dependencies, etc.</p>
+<h2 id="how-layer-caching-works"><a class="header" href="#how-layer-caching-works">How Layer Caching Works</a></h2>
+<ul>
+<li>Docker caches intermediate layers during the build process.</li>
+<li>When building an image, Docker checks if intermediate layers already exist in the cache.</li>
+<li>If a layer has not changed since the last build, Docker reuses it from the cache.</li>
+<li>This reduces the time required for building Docker images, especially for subsequent builds where only certain layers have changed.</li>
+</ul>
+<h2 id="implementing-layer-caching"><a class="header" href="#implementing-layer-caching">Implementing Layer Caching</a></h2>
+<p>To leverage layer caching effectively, follow these steps:</p>
+<ol>
+<li><strong>Identify Cached Layers</strong>: Analyze your Dockerfile to identify layers that can be cached.</li>
+<li><strong>Optimize Layer Order</strong>: Arrange commands in the Dockerfile to maximize caching opportunities.</li>
+<li><strong>Copy Files First</strong>: If your application has dependencies that rarely change, copy the package manifest files (e.g., package.json) first to enable caching of dependency installation layers.</li>
+<li><strong>Leverage Multi-stage Builds</strong>: Utilize multi-stage builds to separate build-time dependencies from runtime dependencies, reducing the size of the final image and improving caching.</li>
+<li><strong>Avoid Frequent Changes</strong>: Minimize unnecessary changes in Dockerfiles and source code to maximize caching benefits.</li>
+</ol>
+<h2 id="example-layer-caching"><a class="header" href="#example-layer-caching">Example: Layer Caching</a></h2>
+<p>here's an example demonstrating layer caching in a Dockerfile for a Node.js application:</p>
+<pre><code class="language-Dockerfile"># Stage 1: Build stage
+FROM node:14 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Production stage
+FROM node:14-alpine AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy built files from the previous stage
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+
+# Expose port
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "dist/app.js"]
+</code></pre>
+<p>In this example:</p>
+<ul>
+<li>
+<p><strong>Stage 1 (Build stage)</strong>:</p>
+<ul>
+<li>We use the <code>node:14</code> image as the base image for building the application.</li>
+<li>We copy <code>package.json</code> and <code>package-lock.json</code> first to leverage caching of the dependencies layer. If these files haven't changed since the last build, Docker will reuse the cached layer, saving time during the build process.</li>
+<li>We install dependencies using <code>npm install</code>.</li>
+<li>We copy the rest of the application files and build the application using <code>npm run build</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Stage 2 (Production stage)</strong>:</p>
+<ul>
+<li>We use the lightweight <code>node:14-alpine</code> image as the base image for the production environment.</li>
+<li>We copy only the necessary files (<code>dist</code> directory and <code>node_modules</code>) from the previous stage using <code>COPY --from=build</code>.</li>
+<li>We expose port 3000 and define the command to run the application (<code>node dist/app.js</code>).</li>
+</ul>
+</li>
+</ul>
+<p>This Dockerfile utilizes layer caching efficiently by separating the build process into multiple stages and copying files in a way that maximizes caching opportunities. Subsequent builds will benefit from cached layers, resulting in faster build times, especially when dependencies remain unchanged.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../07_Start-Stop-Containers/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../09_Managing-Images_Containers/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../07_Start-Stop-Containers/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../09_Managing-Images_Containers/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

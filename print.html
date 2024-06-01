@@ -1,0 +1,1266 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_Intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_Installation/index.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="03_Images-Containers/index.html"><strong aria-hidden="true">3.</strong> Images Containers</a></li><li class="chapter-item expanded "><a href="04_Parent-Images/index.html"><strong aria-hidden="true">4.</strong> Parent Images</a></li><li class="chapter-item expanded "><a href="05_Dockerfile/index.html"><strong aria-hidden="true">5.</strong> Dockerfile</a></li><li class="chapter-item expanded "><a href="06_Docker-Ignore/index.html"><strong aria-hidden="true">6.</strong> Docker Ignore</a></li><li class="chapter-item expanded "><a href="07_Start-Stop-Containers/index.html"><strong aria-hidden="true">7.</strong> Start Stop Container</a></li><li class="chapter-item expanded "><a href="08_Layer-Caching/index.html"><strong aria-hidden="true">8.</strong> Layer Caching</a></li><li class="chapter-item expanded "><a href="09_Managing-Images_Containers/index.html"><strong aria-hidden="true">9.</strong> Managing Images Containers</a></li><li class="chapter-item expanded "><a href="10_Volumes/index.html"><strong aria-hidden="true">10.</strong> Volumes</a></li><li class="chapter-item expanded "><a href="11_Docker-Compose/index.html"><strong aria-hidden="true">11.</strong> Docker Compose</a></li><li class="chapter-item expanded "><a href="12_Dockerizing-React-App/index.html"><strong aria-hidden="true">12.</strong> Dockerizing React App</a></li><li class="chapter-item expanded "><a href="13_Dockerizing-ROS2/index.html"><strong aria-hidden="true">13.</strong> Dockerizing ROS2</a></li><li class="chapter-item expanded "><a href="14_Sharing-Images-on-Hub/index.html"><strong aria-hidden="true">14.</strong> Sharing Images on Hub</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="what-is-docker"><a class="header" href="#what-is-docker">What is Docker?</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Docker is a powerful platform that simplifies the process of developing, shipping, and running applications. It is built on the concept of containerization, which allows developers to package an application and its dependencies into a standardized unit for software development.</p>
+<h2 id="what-is-docker-1"><a class="header" href="#what-is-docker-1">What is Docker?</a></h2>
+<p>At its core, Docker is a containerization platform that enables developers to package, distribute, and manage applications within containers. Containers are lightweight, portable, and self-sufficient units that include all the necessary software components to run an application, such as code, runtime, libraries, and system tools.</p>
+<h3 id="containers"><a class="header" href="#containers">Containers</a></h3>
+<p>Containers are isolated environments that run applications and their dependencies in a consistent and predictable manner. They encapsulate the application's runtime environment, ensuring that it runs consistently across different computing environments, such as development, testing, and production.</p>
+<p>Containers provide several benefits, including:</p>
+<ul>
+<li><strong>Isolation</strong>: Containers isolate applications from one another and from the underlying host system, preventing conflicts and ensuring security.</li>
+<li><strong>Portability</strong>: Containers can be easily moved and deployed across different platforms, enabling seamless migration between development, testing, and production environments.</li>
+<li><strong>Resource Efficiency</strong>: Containers share the host system's kernel and resources, such as CPU, memory, and disk space, resulting in efficient resource utilization and faster startup times.</li>
+<li><strong>Scalability</strong>: Containers can be quickly scaled up or down to meet changing demand, making them ideal for microservices architectures and cloud-native applications.</li>
+</ul>
+<h3 id="docker-vs-virtual-machines"><a class="header" href="#docker-vs-virtual-machines">Docker vs. Virtual Machines</a></h3>
+<p>While traditional virtual machines (VMs) also provide isolation and portability, they are heavier and less efficient compared to Docker containers. VMs emulate entire hardware systems, including the operating system (OS), whereas containers share the host OS's kernel, resulting in lower overhead and faster performance.</p>
+<p>Docker containers offer the following advantages over VMs:</p>
+<ul>
+<li><strong>Performance</strong>: Containers have lower overhead and faster startup times compared to VMs, making them ideal for lightweight, agile development workflows.</li>
+<li><strong>Resource Utilization</strong>: Containers consume fewer resources (e.g., CPU, memory, disk space) than VMs, enabling higher density and more efficient resource utilization.</li>
+<li><strong>Deployment Flexibility</strong>: Containers can be deployed on any infrastructure that supports Docker, including bare-metal servers, virtual machines, and cloud platforms, providing flexibility and portability across different environments.</li>
+</ul>
+<h2 id="key-benefits-of-docker"><a class="header" href="#key-benefits-of-docker">Key Benefits of Docker</a></h2>
+<p>Docker offers several key benefits for developers, DevOps engineers, and organizations:</p>
+<ul>
+<li><strong>Consistency</strong>: Docker ensures consistency between development, testing, and production environments, reducing the risk of configuration errors and deployment failures.</li>
+<li><strong>Productivity</strong>: Docker streamlines the development workflow by providing a standardized environment for building, testing, and deploying applications, enabling faster iteration and delivery.</li>
+<li><strong>Collaboration</strong>: Docker facilitates collaboration among developers, allowing them to share containerized applications and dependencies easily, regardless of their development environment or toolchain.</li>
+<li><strong>Infrastructure as Code (IaC)</strong>: Docker enables infrastructure automation and IaC practices by defining application environments in code, making them version-controlled, repeatable, and scalable.</li>
+<li><strong>Cost Efficiency</strong>: Docker reduces infrastructure costs by maximizing resource utilization, minimizing downtime, and optimizing workload management, resulting in lower total cost of ownership (TCO) for organizations.</li>
+</ul>
+<p>In summary, Docker is a versatile platform that empowers developers and organizations to build, ship, and run applications reliably and efficiently using containerization technology. By leveraging Docker's capabilities, teams can accelerate software delivery, improve collaboration, and drive innovation in today's fast-paced digital economy.</p>
+<p>While virtual machines can also address similar challenges, Docker containers are more lightweight and efficient. Unlike virtual machines, which run their own operating system, Docker containers share the host computer's kernel, resulting in faster startup times and lower resource consumption.</p>
+<h3 id="key-benefits-of-docker-1"><a class="header" href="#key-benefits-of-docker-1">Key Benefits of Docker</a></h3>
+<ul>
+<li><strong>Isolation</strong> : Containers provide a sandboxed environment for running applications, ensuring they don't interfere with each other.</li>
+<li><strong>Portability</strong> : Docker containers can run consistently across different environments, from development to production.</li>
+<li><strong>Efficiency</strong> : Containers are lightweight and share the host system's resources, leading to faster startup times and reduced overhead compared to virtual machines.</li>
+<li><strong>Consistency</strong> : Docker ensures that applications run the same way everywhere, regardless of the underlying infrastructure.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started-with-docker"><a class="header" href="#getting-started-with-docker">Getting Started with Docker</a></h1>
+<p>Now that you understand the basics, let's dive into installing Docker and getting started with using it.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<p>Follow these steps to install Docker on your computer:</p>
+<ul>
+<li>
+<p>On Windows</p>
+<pre><code class="language-ps1">winget install -e --id Docker.DockerDesktop
+</code></pre>
+</li>
+<li>
+<p>On Linux</p>
+<pre><code class="language-sh">#!/bin/bash
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo mkdir -p /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker-archive-keyring.gpg
+
+# Add the Docker repository to Apt sources:
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+$(. /etc/os-release &amp;&amp; echo "$UBUNTU_CODENAME") stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+sudo apt-get update
+
+# Install Docker packages:
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx docker-compose
+
+# Test Docker installation:
+sudo docker run hello-world
+</code></pre>
+</li>
+</ul>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<p>Once Docker is installed, you can start using it to create and manage containers. Here are some common commands to get you started:</p>
+<ul>
+<li><code>docker pull &lt;image&gt;</code>: Pulls a Docker image from a registry.</li>
+<li><code>docker run &lt;image&gt;</code>: Runs a Docker container based on a specified image.</li>
+<li><code>docker ps</code>: Lists running containers.</li>
+<li><code>docker build &lt;path/to/Dockerfile&gt;</code>: Builds a Docker image from a Dockerfile.</li>
+<li><code>docker-compose up</code>: Starts services defined in a <code>docker-compose.yml</code> file.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="images--containers-in-docker"><a class="header" href="#images--containers-in-docker">Images &amp; Containers in Docker</a></h1>
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<p>In Docker, images and containers are pivotal concepts that form the backbone of containerization technology. Understanding these components is essential for harnessing the full power of Docker in software development and deployment workflows.</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<h3 id="images"><a class="header" href="#images">Images</a></h3>
+<p>Images serve as the building blocks for containers in Docker. Think of them as blueprints or templates that define the environment and configuration for running an application. Here's a closer look at what Docker images encapsulate:</p>
+<ul>
+<li><strong>Runtime Environment</strong> : An image specifies the runtime environment required for the application to run seamlessly. This could include specific versions of programming language runtimes (e.g., Python, Node.js), libraries, and system tools.</li>
+<li><strong>Application Code</strong> : The image contains the actual codebase of the application, ensuring that the container runs the correct version of the application.</li>
+<li><strong>Dependencies</strong> : Any dependencies or libraries required by the application are bundled within the image, guaranteeing that the application runs consistently regardless of the host environment.</li>
+<li><strong>Configuration</strong> : Images can include configuration settings such as environment variables, which are essential for customizing the behavior of the application.</li>
+<li><strong>Additional Instructions</strong> : Docker images can also include instructions for executing commands during container initialization, such as setting up directories, installing packages, or running initialization scripts.</li>
+<li><strong>File System</strong> : Each image has its own read-only file system, which is isolated from the host system and other containers.</li>
+</ul>
+<h3 id="containers-1"><a class="header" href="#containers-1">Containers</a></h3>
+<p>Containers are instantiated instances of Docker images. When you run an image, Docker creates a container based on that image, which runs as a lightweight, isolated process on the host system. Here's what you need to know about Docker containers:</p>
+<ul>
+<li><strong>Isolated Processes</strong> : Containers run as isolated processes on the host system, ensuring that they do not interfere with other containers or processes.</li>
+<li><strong>Self-contained Environments</strong> : Each container encapsulates everything needed to run the application, including the runtime, code, dependencies, and configuration. This ensures that the application runs consistently across different environments, from development to production.</li>
+<li><strong>Lifecycle Management</strong> : Containers have a lifecycle that includes creation, starting, stopping, and deletion. Docker provides commands and APIs to manage container lifecycles efficiently.</li>
+<li><strong>Resource Constraints</strong> : Docker allows you to specify resource constraints for containers, such as CPU and memory limits, to ensure fair resource allocation and prevent resource contention.</li>
+</ul>
+<h2 id="implications"><a class="header" href="#implications">Implications</a></h2>
+<p>Understanding the relationship between images and containers unlocks several benefits in Docker-based workflows:</p>
+<ul>
+<li><strong>Portability</strong> : Docker images can be easily shared and distributed across different environments, enabling consistent execution of applications regardless of the underlying system configurations.</li>
+<li><strong>Isolation</strong> : Containers provide a level of isolation for running applications, ensuring that they remain insulated from other processes on the host system, enhancing security and stability.</li>
+<li><strong>Consistency</strong> : By packaging the application and its dependencies into a single image, Docker facilitates the creation of reproducible environments, which ensures consistency across development, testing, and production stages.</li>
+<li><strong>Scalability</strong> : Docker containers can be scaled horizontally to handle varying levels of workload demand, making them suitable for deploying microservices architectures and cloud-native applications.</li>
+</ul>
+<p>In summary, images and containers are core concepts in Docker that enable developers to build, ship, and run applications reliably and efficiently using containerization technology. By mastering these concepts, developers can streamline their development workflows, improve collaboration, and accelerate the delivery of software in today's fast-paced digital landscape.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="parent-images--docker-hub"><a class="header" href="#parent-images--docker-hub">Parent Images &amp; Docker Hub</a></h1>
+<p>In this tutorial, we will delve into understanding parent images, their significance in Docker, and how to utilize Docker Hub to fetch pre-made images. We will cover the process of pulling a parent image from Docker Hub and exploring its functionalities.</p>
+<h2 id="introduction-to-parent-images"><a class="header" href="#introduction-to-parent-images">Introduction to Parent Images</a></h2>
+<p>Images in Docker are constructed from layers, with each layer contributing incrementally to the final image. The initial layer, often referred to as the parent image, typically describes the operating system and runtime environment of the container.</p>
+<h3 id="docker-hub"><a class="header" href="#docker-hub">Docker Hub</a></h3>
+<p><a href="https://hub.docker.com/">Docker Hub</a> serves as an online repository for Docker images, akin to GitHub but tailored for Docker. It houses a vast collection of pre-made images that can be utilized as the foundational layer for custom images.</p>
+<h2 id="fetching-a-parent-image-from-docker-hub"><a class="header" href="#fetching-a-parent-image-from-docker-hub">Fetching a Parent Image from Docker Hub</a></h2>
+<p>Let's imagine we need to create a Docker image for a project requiring a Node.js environment. In such a scenario, the initial layer of our image would be a parent Node.js image obtained from Docker Hub.</p>
+<ol>
+<li>
+<p><strong>Search for Node.js Image</strong></p>
+<ul>
+<li>Navigate to Docker Hub and search for Node.js images.</li>
+<li>Find the official Node.js image, which serves as the base for our containerized environment.</li>
+</ul>
+</li>
+<li>
+<p><strong>Explore Image Tags</strong></p>
+<ul>
+<li>Each Docker image may have multiple tags specifying different versions and configurations.</li>
+<li>Tags include specific Node.js versions and underlying Linux distributions (e.g., Alpine).</li>
+</ul>
+</li>
+<li>
+<p><strong>Pull the Image</strong></p>
+<ul>
+<li>Copy the <code>docker pull</code> command provided on Docker Hub for the desired Node.js image.</li>
+<li>Execute the command in your terminal to download the image to your local machine.</li>
+</ul>
+</li>
+</ol>
+<h2 id="running-the-parent-image-as-a-container"><a class="header" href="#running-the-parent-image-as-a-container">Running the Parent Image as a Container</a></h2>
+<p>Once the parent Node.js image is downloaded, it can be executed as a container to provide a Node.js runtime environment.</p>
+<ol>
+<li>
+<p><strong>Execute the Image</strong></p>
+<ul>
+<li>Use the Docker command <code>docker run</code> to create a container from the downloaded Node.js image.</li>
+<li>Optionally, specify any additional configurations or options.</li>
+</ul>
+</li>
+<li>
+<p><strong>Interact with the Container</strong></p>
+<ul>
+<li>Once the container is running, it can be interacted with through a command-line interface.</li>
+<li>Execute Linux commands or utilize Node.js functionalities within the container environment.</li>
+</ul>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-dockerfile"><a class="header" href="#the-dockerfile">The Dockerfile</a></h1>
+<p>In this tutorial, we'll delve into the essential component of Docker image creation – the Dockerfile. Dockerfiles serve as blueprints for building Docker images, defining the environment, dependencies, and configurations necessary for running your applications within containers. By the end of this crash course, you'll be equipped with the knowledge to create Dockerfiles and build Docker images effectively.</p>
+<h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
+<p>In the previous lessons, we discussed how Docker images consist of multiple layers, with each layer representing changes or additions to the image. The initial layer typically comprises a parent image, such as an operating system or a specific software environment like Node.js or Python. Additional layers are then added to customize the image according to your application's requirements.</p>
+<p>The Dockerfile is a text file that contains a set of instructions for Docker to build an image. These instructions define each layer of the image, specifying actions such as copying files, installing dependencies, and setting up the runtime environment.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>Before we begin, ensure that Docker is installed on your system. You can download Docker Desktop for your operating system from the official Docker website.</p>
+<h2 id="step-by-step-guide"><a class="header" href="#step-by-step-guide">Step-by-Step Guide</a></h2>
+<h3 id="1-understanding-the-application"><a class="header" href="#1-understanding-the-application">1. Understanding the Application</a></h3>
+<p>For demonstration purposes, we'll use a simple Node.js application. You can access the sample application's code in the <code>api</code> folder of the course files on GitHub (Lesson 5 branch).</p>
+<h3 id="2-creating-the-dockerfile"><a class="header" href="#2-creating-the-dockerfile">2. Creating the Dockerfile</a></h3>
+<ol>
+<li>Open your text editor or integrated development environment (IDE).</li>
+<li>Navigate to the root directory of your project.</li>
+<li>Create a new file named <code>Dockerfile</code> (no file extension).</li>
+</ol>
+<h3 id="3-writing-the-dockerfile"><a class="header" href="#3-writing-the-dockerfile">3. Writing the Dockerfile</a></h3>
+<p>Now, let's populate the Dockerfile with instructions to build our Docker image:</p>
+<pre><code class="language-Dockerfile"># Specify the base image
+FROM node:17-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy application source code
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Expose port 4000
+EXPOSE 4000
+
+# Command to run the application
+CMD ["node", "app.js"]
+</code></pre>
+<p>Let's break down each instruction:</p>
+<ul>
+<li><code>FROM</code>: Specifies the base image (Node.js 17 on Alpine Linux).</li>
+<li><code>WORKDIR</code>: Sets the working directory inside the container to <code>/app</code>.</li>
+<li><code>COPY</code>: Copies the application source code from the host to the container's <code>/app</code> directory.</li>
+<li><code>RUN</code>: Executes the <code>npm install</code> command to install dependencies.</li>
+<li><code>EXPOSE</code>: Informs Docker that the application inside the container will listen on port 4000.</li>
+<li><code>CMD</code>: Defines the command to run when the container starts (<code>node app.js</code>).</li>
+</ul>
+<h3 id="4-building-the-docker-image"><a class="header" href="#4-building-the-docker-image">4. Building the Docker Image</a></h3>
+<ol>
+<li>Open a terminal.</li>
+<li>Navigate to the directory containing the Dockerfile.</li>
+<li>Run the following command to build the Docker image:</li>
+</ol>
+<pre><code class="language-bash">docker build -t my-app .
+</code></pre>
+<ul>
+<li><code>-t my-app</code>: Tags the image with the name <code>my-app</code>.</li>
+<li><code>.</code>: Specifies the location of the Dockerfile (current directory).</li>
+</ul>
+<h3 id="5-running-the-docker-container"><a class="header" href="#5-running-the-docker-container">5. Running the Docker Container</a></h3>
+<p>Once the image is built successfully, you can run a container using the following command:</p>
+<pre><code class="language-bash">docker run -p 4000:4000 my-app
+</code></pre>
+<ul>
+<li><code>-p 4000:4000</code>: Maps port 4000 of the host machine to port 4000 of the container.</li>
+<li><code>my-app</code>: Specifies the name of the Docker image to use.</li>
+</ul>
+<p>Certainly! Let's create a comprehensive example to demonstrate the use of Docker and Dockerfiles. In this example, we'll build a Docker image for a Python web application using Flask framework.</p>
+<h2 id="example-dockerizing-a-python-flask-application"><a class="header" href="#example-dockerizing-a-python-flask-application">Example: Dockerizing a Python Flask Application</a></h2>
+<h3 id="1-project-structure"><a class="header" href="#1-project-structure">1. Project Structure</a></h3>
+<p>Create a new directory for your project and organize the files as follows:</p>
+<pre><code class="language-sh">project/
+├── app/
+│   ├── templates/
+│   │   └── index.html
+│   └── app.py
+└── Dockerfile
+</code></pre>
+<h3 id="2-python-flask-application"><a class="header" href="#2-python-flask-application">2. Python Flask Application</a></h3>
+<p>Create a simple Python Flask application that serves a basic web page:</p>
+<h4 id="appapppy"><a class="header" href="#appapppy"><code>app/app.py</code></a></h4>
+<pre><code class="language-python">from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+</code></pre>
+<h4 id="apptemplatesindexhtml"><a class="header" href="#apptemplatesindexhtml"><code>app/templates/index.html</code></a></h4>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Flask Docker Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, Docker!&lt;/h1&gt;
+    &lt;p&gt;This is a simple Flask web application running inside a Docker container.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="3-dockerfile"><a class="header" href="#3-dockerfile">3. Dockerfile</a></h3>
+<p>Create a Dockerfile in the project directory to define the Docker image:</p>
+<h4 id="dockerfile"><a class="header" href="#dockerfile"><code>Dockerfile</code></a></h4>
+<pre><code class="language-Dockerfile"># Use the official Python image as a base
+FROM python:3.9-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the dependencies file to the working directory
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose port 5000 to the outside world
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"]
+</code></pre>
+<h3 id="4-requirements-file"><a class="header" href="#4-requirements-file">4. Requirements File</a></h3>
+<p>If your application has dependencies, create a <code>requirements.txt</code> file listing them:</p>
+<h4 id="requirementstxt"><a class="header" href="#requirementstxt"><code>requirements.txt</code></a></h4>
+<pre><code class="language-sh">Flask==2.0.1
+</code></pre>
+<h3 id="5-building-the-docker-image"><a class="header" href="#5-building-the-docker-image">5. Building the Docker Image</a></h3>
+<p>Open a terminal, navigate to the project directory, and build the Docker image:</p>
+<pre><code class="language-bash">docker build -t flask-docker-example .
+</code></pre>
+<h3 id="6-running-the-docker-container"><a class="header" href="#6-running-the-docker-container">6. Running the Docker Container</a></h3>
+<p>Once the image is built successfully, run a container using the following command:</p>
+<pre><code class="language-bash">docker run -p 5000:5000 flask-docker-example
+</code></pre>
+<h3 id="7-accessing-the-application"><a class="header" href="#7-accessing-the-application">7. Accessing the Application</a></h3>
+<p>Open a web browser and navigate to <code>http://localhost:5000</code> to view the Flask application running inside the Docker container.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="understanding-dockerignore"><a class="header" href="#understanding-dockerignore">Understanding .dockerignore</a></h1>
+<p>In this tutorial, we will learn about the <code>.dockerignore</code> file in Docker, its purpose, and how to use it effectively to optimize Docker builds.</p>
+<h2 id="introduction-2"><a class="header" href="#introduction-2">Introduction</a></h2>
+<p>When working with Docker, it's common to have files and directories in your project directory that you don't want to include in your Docker image. For example, dependencies managed by package managers like <code>node_modules</code> in Node.js projects or log files. Including unnecessary files can increase the size of your Docker image and slow down the build process.</p>
+<p>To address this issue, Docker provides a solution called <code>.dockerignore</code>. This file allows you to specify which files and directories Docker should ignore when building an image.</p>
+<h2 id="understanding-dockerignore-1"><a class="header" href="#understanding-dockerignore-1">Understanding .dockerignore</a></h2>
+<p>The <code>.dockerignore</code> file works similarly to <code>.gitignore</code> in Git. It specifies patterns for files and directories that Docker should exclude when building an image. Docker automatically looks for this file in the root directory of your Docker build context.</p>
+<h2 id="creating-a-dockerignore-file"><a class="header" href="#creating-a-dockerignore-file">Creating a .dockerignore File</a></h2>
+<p>To create a <code>.dockerignore</code> file:</p>
+<ol>
+<li>Navigate to your project directory in your terminal or file explorer.</li>
+<li>Create a new file named <code>.dockerignore</code>.</li>
+<li>Open the <code>.dockerignore</code> file in your preferred text editor.</li>
+</ol>
+<h2 id="ignoring-files-and-directories"><a class="header" href="#ignoring-files-and-directories">Ignoring Files and Directories</a></h2>
+<p>Inside the <code>.dockerignore</code> file, you can specify files, directories, or patterns that Docker should ignore during the build process. Here's how to do it:</p>
+<pre><code class="language-plaintext"># Example .dockerignore file
+
+# Ignore the node_modules directory
+node_modules
+
+# Ignore log files
+*.log
+
+# Ignore sensitive configuration files
+config.json
+</code></pre>
+<p>In the example above:</p>
+<ul>
+<li><code>node_modules</code>: Excludes the <code>node_modules</code> directory from being copied into the Docker image.</li>
+<li><code>*.log</code>: Ignores all files with a <code>.log</code> extension.</li>
+<li><code>config.json</code>: Excludes the <code>config.json</code> file.</li>
+</ul>
+<p>You can specify multiple patterns in the <code>.dockerignore</code> file, with each pattern on a new line.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>The <code>.dockerignore</code> file is a powerful tool for optimizing Docker builds by excluding unnecessary files and directories from Docker images. By using <code>.dockerignore</code>, you can reduce the size of your Docker images and improve build performance.</p>
+<p>Now that you understand how to use <code>.dockerignore</code>, you can create more efficient Docker images for your projects.</p>
+<h2 id="example-of-dockerignore"><a class="header" href="#example-of-dockerignore">Example of .dockerignore</a></h2>
+<p>In this tutorial, we'll create a comprehensive example of how to use <code>.dockerignore</code> effectively in a Node.js project. We'll demonstrate how to exclude unnecessary files and directories, such as <code>node_modules</code>, log files, and sensitive configuration files, from the Docker image.</p>
+<h3 id="example-project-structure"><a class="header" href="#example-project-structure">Example Project Structure</a></h3>
+<p>Let's assume we have the following project structure for our Node.js application:</p>
+<pre><code class="language-sh">project/
+│
+├── .dockerignore
+├── Dockerfile
+├── package.json
+├── server.js
+├── logs/
+│   ├── error.log
+│   └── access.log
+└── config/
+    └── config.json
+</code></pre>
+<h3 id="creating-a-dockerignore-file-1"><a class="header" href="#creating-a-dockerignore-file-1">Creating a .dockerignore File</a></h3>
+<p>First, let's create a <code>.dockerignore</code> file in the root directory of our project:</p>
+<pre><code class="language-plaintext"># .dockerignore
+
+# Ignore node_modules directory
+node_modules
+
+# Ignore log files
+logs/*.log
+
+# Ignore sensitive configuration files
+config/config.json
+</code></pre>
+<h3 id="dockerfile-1"><a class="header" href="#dockerfile-1">Dockerfile</a></h3>
+<p>Next, let's create a <code>Dockerfile</code> to build our Docker image:</p>
+<pre><code class="language-Dockerfile"># Dockerfile
+
+# Use the official Node.js 14 image
+FROM node:14
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application
+COPY . .
+
+# Expose port 3000
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "server.js"]
+</code></pre>
+<h3 id="building-the-docker-image"><a class="header" href="#building-the-docker-image">Building the Docker Image</a></h3>
+<p>Now, we'll build the Docker image using the <code>Dockerfile</code>:</p>
+<pre><code class="language-bash">docker build -t my-node-app .
+</code></pre>
+<h3 id="running-the-docker-container"><a class="header" href="#running-the-docker-container">Running the Docker Container</a></h3>
+<p>Finally, let's run the Docker container based on the image we just built:</p>
+<pre><code class="language-bash">docker run -p 3000:3000 my-node-app
+</code></pre>
+<p>In this example, we learned how to use <code>.dockerignore</code> to optimize Docker builds for a Node.js application. By excluding unnecessary files and directories, such as <code>node_modules</code>, log files, and sensitive configuration files, we can create more efficient Docker images. The <code>.dockerignore</code> file plays a crucial role in reducing the size of Docker images and improving build performance. By following best practices and carefully specifying which files to ignore, we can create leaner and more manageable Docker images for our projects. Now that you understand how to use <code>.dockerignore</code> effectively, you can apply these principles to your own Docker projects to achieve better results. That concludes our comprehensive example of <code>.dockerignore</code>. Happy Dockerizing!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="starting--stopping-containers"><a class="header" href="#starting--stopping-containers">Starting &amp; Stopping Containers</a></h1>
+<p>In this tutorial, we will delve into starting and stopping containers, both through Docker Desktop GUI and the command line interface (CLI).</p>
+<h2 id="overview-2"><a class="header" href="#overview-2">Overview</a></h2>
+<ul>
+<li>Introduction to running containers from Docker images.</li>
+<li>Port mapping to access container services.</li>
+<li>Starting, stopping, and restarting containers using Docker Desktop and CLI.</li>
+</ul>
+<h2 id="starting-containers-with-docker-desktop"><a class="header" href="#starting-containers-with-docker-desktop">Starting Containers with Docker Desktop</a></h2>
+<h3 id="1-running-an-image"><a class="header" href="#1-running-an-image">1. Running an Image</a></h3>
+<ul>
+<li>Open Docker Desktop and navigate to the Images tab.</li>
+<li>Click on the Run button next to the desired image.</li>
+<li>Specify container name and port mapping.
+<ul>
+<li>Example: <code>my_app_container_1</code>, mapping port 4000 of the container to localhost port 4000.</li>
+</ul>
+</li>
+<li>Click Run to start the container.</li>
+</ul>
+<h3 id="2-accessing-container-services"><a class="header" href="#2-accessing-container-services">2. Accessing Container Services</a></h3>
+<ul>
+<li>Once the container is running, access its services via the specified port.</li>
+<li>Verify functionality by accessing <code>localhost:4000</code> in your web browser.</li>
+<li>Containers can be stopped using the Stop button, but they remain listed in Docker Desktop.</li>
+</ul>
+<h2 id="starting-containers-with-cli"><a class="header" href="#starting-containers-with-cli">Starting Containers with CLI</a></h2>
+<h3 id="1-finding-image-details"><a class="header" href="#1-finding-image-details">1. Finding Image Details</a></h3>
+<ul>
+<li>Open a terminal or command prompt.</li>
+<li>List available Docker images:
+<pre><code>docker images
+</code></pre>
+</li>
+</ul>
+<h3 id="2-running-containers"><a class="header" href="#2-running-containers">2. Running Containers</a></h3>
+<ul>
+<li>Run an image and create a container:
+<pre><code>docker run --name my_app_container_1 my_app
+</code></pre>
+</li>
+</ul>
+<h3 id="3-mapping-ports"><a class="header" href="#3-mapping-ports">3. Mapping Ports</a></h3>
+<ul>
+<li>Use the <code>-p</code> flag to map container ports to host ports:
+<pre><code>docker run --name my_app_container_2 -d -p 4000:4000 my_app
+</code></pre>
+</li>
+</ul>
+<h3 id="4-detached-mode"><a class="header" href="#4-detached-mode">4. Detached Mode</a></h3>
+<ul>
+<li>Add <code>-d</code> flag to run containers in detached mode:
+<pre><code>docker run -d --name my_app_container_2 -p 4000:4000 my_app
+</code></pre>
+</li>
+</ul>
+<h3 id="5-accessing-container-services"><a class="header" href="#5-accessing-container-services">5. Accessing Container Services</a></h3>
+<ul>
+<li>Verify container functionality by accessing <code>localhost:4000</code> in your web browser.</li>
+</ul>
+<h2 id="stopping-and-restarting-containers"><a class="header" href="#stopping-and-restarting-containers">Stopping and Restarting Containers</a></h2>
+<h3 id="1-stopping-containers"><a class="header" href="#1-stopping-containers">1. Stopping Containers</a></h3>
+<ul>
+<li>List running containers:
+<pre><code>docker ps
+</code></pre>
+</li>
+<li>Stop a container by its ID or name:
+<pre><code>docker stop my_app_container_2
+</code></pre>
+</li>
+</ul>
+<h3 id="2-restarting-containers"><a class="header" href="#2-restarting-containers">2. Restarting Containers</a></h3>
+<ul>
+<li>List all containers:
+<pre><code>docker ps -a
+</code></pre>
+</li>
+<li>Restart a stopped container:
+<pre><code>docker start my_app_container_2
+</code></pre>
+</li>
+</ul>
+<h2 id="example-running-a-nodejs-application-in-docker"><a class="header" href="#example-running-a-nodejs-application-in-docker">Example: Running a Node.js Application in Docker</a></h2>
+<h3 id="1-setting-up-the-nodejs-application"><a class="header" href="#1-setting-up-the-nodejs-application">1. Setting up the Node.js Application</a></h3>
+<p>Create a simple Node.js application that serves a JSON response:</p>
+<p><strong>app.js</strong></p>
+<pre><code class="language-javascript">const http = require('http');
+
+const hostname = '0.0.0.0';
+const port = 4000;
+
+const server = http.createServer((req, res) =&gt; {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ message: 'Hello from Docker!' }));
+});
+
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+</code></pre>
+<h3 id="2-dockerfile-configuration"><a class="header" href="#2-dockerfile-configuration">2. Dockerfile Configuration</a></h3>
+<p>Create a Dockerfile to define the container's configuration:</p>
+<p><strong>Dockerfile</strong></p>
+<pre><code class="language-Dockerfile">FROM node:14
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 4000
+
+CMD ["node", "app.js"]
+</code></pre>
+<h3 id="3-building-the-docker-image"><a class="header" href="#3-building-the-docker-image">3. Building the Docker Image</a></h3>
+<p>Build the Docker image from the Dockerfile:</p>
+<pre><code class="language-bash">docker build -t my-node-app .
+</code></pre>
+<h3 id="4-running-the-docker-container"><a class="header" href="#4-running-the-docker-container">4. Running the Docker Container</a></h3>
+<h4 id="using-docker-desktop"><a class="header" href="#using-docker-desktop">Using Docker Desktop</a></h4>
+<ul>
+<li>Open Docker Desktop.</li>
+<li>Navigate to the Images tab.</li>
+<li>Click on the Run button next to the <code>my-node-app</code> image.</li>
+<li>Specify a container name (<code>my_node_container</code>) and port mapping (<code>4000:4000</code>).</li>
+<li>Click Run to start the container.</li>
+</ul>
+<h4 id="using-cli"><a class="header" href="#using-cli">Using CLI</a></h4>
+<p>Run the Docker container from the command line:</p>
+<pre><code class="language-bash">docker run -d --name my_node_container -p 4000:4000 my-node-app
+</code></pre>
+<h3 id="5-accessing-the-application"><a class="header" href="#5-accessing-the-application">5. Accessing the Application</a></h3>
+<p>Visit <code>localhost:4000</code> in your web browser to access the Node.js application running inside the Docker container. You should see the JSON response: <code>{"message":"Hello from Docker!"}</code>.</p>
+<h3 id="6-stopping-and-restarting-the-container"><a class="header" href="#6-stopping-and-restarting-the-container">6. Stopping and Restarting the Container</a></h3>
+<h4 id="stopping-the-container"><a class="header" href="#stopping-the-container">Stopping the Container</a></h4>
+<p>Using Docker Desktop:</p>
+<ul>
+<li>Go to the Containers tab.</li>
+<li>Click on the Stop button next to <code>my_node_container</code>.</li>
+</ul>
+<p>Using CLI:</p>
+<pre><code class="language-bash">docker stop my_node_container
+</code></pre>
+<h4 id="restarting-the-container"><a class="header" href="#restarting-the-container">Restarting the Container</a></h4>
+<p>Using Docker Desktop:</p>
+<ul>
+<li>Go to the Containers tab.</li>
+<li>Click on the Start button next to <code>my_node_container</code>.</li>
+</ul>
+<p>Using CLI:</p>
+<pre><code class="language-bash">docker start my_node_container
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="layer-caching"><a class="header" href="#layer-caching">Layer Caching</a></h1>
+<p>This tutorial covers the concept of layer caching in Docker, its significance in speeding up image builds, and how to implement it effectively in your Dockerfiles.</p>
+<h2 id="introduction-3"><a class="header" href="#introduction-3">Introduction</a></h2>
+<p>Layer caching is a technique used in Docker to optimize the build process by reusing intermediate layers from previous builds, thereby reducing build times significantly.</p>
+<h3 id="understanding-docker-layers"><a class="header" href="#understanding-docker-layers">Understanding Docker Layers</a></h3>
+<p>Every line in a Dockerfile creates a new layer in the Docker image. Each layer represents a change made to the image, such as adding files, installing dependencies, etc.</p>
+<h2 id="how-layer-caching-works"><a class="header" href="#how-layer-caching-works">How Layer Caching Works</a></h2>
+<ul>
+<li>Docker caches intermediate layers during the build process.</li>
+<li>When building an image, Docker checks if intermediate layers already exist in the cache.</li>
+<li>If a layer has not changed since the last build, Docker reuses it from the cache.</li>
+<li>This reduces the time required for building Docker images, especially for subsequent builds where only certain layers have changed.</li>
+</ul>
+<h2 id="implementing-layer-caching"><a class="header" href="#implementing-layer-caching">Implementing Layer Caching</a></h2>
+<p>To leverage layer caching effectively, follow these steps:</p>
+<ol>
+<li><strong>Identify Cached Layers</strong>: Analyze your Dockerfile to identify layers that can be cached.</li>
+<li><strong>Optimize Layer Order</strong>: Arrange commands in the Dockerfile to maximize caching opportunities.</li>
+<li><strong>Copy Files First</strong>: If your application has dependencies that rarely change, copy the package manifest files (e.g., package.json) first to enable caching of dependency installation layers.</li>
+<li><strong>Leverage Multi-stage Builds</strong>: Utilize multi-stage builds to separate build-time dependencies from runtime dependencies, reducing the size of the final image and improving caching.</li>
+<li><strong>Avoid Frequent Changes</strong>: Minimize unnecessary changes in Dockerfiles and source code to maximize caching benefits.</li>
+</ol>
+<h2 id="example-layer-caching"><a class="header" href="#example-layer-caching">Example: Layer Caching</a></h2>
+<p>here's an example demonstrating layer caching in a Dockerfile for a Node.js application:</p>
+<pre><code class="language-Dockerfile"># Stage 1: Build stage
+FROM node:14 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Production stage
+FROM node:14-alpine AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy built files from the previous stage
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+
+# Expose port
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "dist/app.js"]
+</code></pre>
+<p>In this example:</p>
+<ul>
+<li>
+<p><strong>Stage 1 (Build stage)</strong>:</p>
+<ul>
+<li>We use the <code>node:14</code> image as the base image for building the application.</li>
+<li>We copy <code>package.json</code> and <code>package-lock.json</code> first to leverage caching of the dependencies layer. If these files haven't changed since the last build, Docker will reuse the cached layer, saving time during the build process.</li>
+<li>We install dependencies using <code>npm install</code>.</li>
+<li>We copy the rest of the application files and build the application using <code>npm run build</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Stage 2 (Production stage)</strong>:</p>
+<ul>
+<li>We use the lightweight <code>node:14-alpine</code> image as the base image for the production environment.</li>
+<li>We copy only the necessary files (<code>dist</code> directory and <code>node_modules</code>) from the previous stage using <code>COPY --from=build</code>.</li>
+<li>We expose port 3000 and define the command to run the application (<code>node dist/app.js</code>).</li>
+</ul>
+</li>
+</ul>
+<p>This Dockerfile utilizes layer caching efficiently by separating the build process into multiple stages and copying files in a way that maximizes caching opportunities. Subsequent builds will benefit from cached layers, resulting in faster build times, especially when dependencies remain unchanged.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="managing-images--containers"><a class="header" href="#managing-images--containers">Managing Images &amp; Containers</a></h1>
+<p>In this tutorial, we'll delve into managing Docker images and containers, including how to delete them and how to add versions to images.</p>
+<h2 id="deleting-images-and-containers"><a class="header" href="#deleting-images-and-containers">Deleting Images and Containers</a></h2>
+<p>To manage Docker images and containers, we need to understand how to delete them.</p>
+<h3 id="deleting-images"><a class="header" href="#deleting-images">Deleting Images</a></h3>
+<p>First, let's list all the images:</p>
+<pre><code class="language-bash">docker images
+</code></pre>
+<p>To delete an image, you can use the <code>docker image rm</code> command followed by the image name or ID. For example:</p>
+<pre><code class="language-bash">docker image rm my_app
+</code></pre>
+<p>If the image is being used by a container, you'll receive an error. To force the removal of an image being used by a container, you can add the <code>-f</code> flag:</p>
+<pre><code class="language-bash">docker image rm -f my_app
+</code></pre>
+<h3 id="deleting-containers"><a class="header" href="#deleting-containers">Deleting Containers</a></h3>
+<p>To delete containers, first list all containers:</p>
+<pre><code class="language-bash">docker ps -a
+</code></pre>
+<p>Then, to delete a container, use the <code>docker container rm</code> command followed by the container name or ID:</p>
+<pre><code class="language-bash">docker container rm my_container
+</code></pre>
+<h3 id="deleting-images-used-by-containers"><a class="header" href="#deleting-images-used-by-containers">Deleting Images Used by Containers</a></h3>
+<p>If an image is being used by a container, you can either force-remove it or delete the associated containers first.</p>
+<p>To force-remove an image being used by a container:</p>
+<pre><code class="language-bash">docker image rm -f my_image
+</code></pre>
+<p>Or, delete the associated containers first:</p>
+<ol>
+<li>List all containers.</li>
+<li>Delete the containers.</li>
+<li>Now you can delete the image without errors.</li>
+</ol>
+<h2 id="adding-versions-to-images"><a class="header" href="#adding-versions-to-images">Adding Versions to Images</a></h2>
+<p>Docker allows you to add versions or tags to images. You can create variations of your images with different tags, denoted by adding a colon (<code>:</code>) after the image name followed by the tag name.</p>
+<h3 id="creating-tagged-images"><a class="header" href="#creating-tagged-images">Creating Tagged Images</a></h3>
+<p>To create a new image with a tag/version:</p>
+<pre><code class="language-bash">docker build -t my_app:v1 .
+</code></pre>
+<p>This command builds an image with the tag <code>v1</code>.</p>
+<h3 id="running-containers-with-specific-image-versions"><a class="header" href="#running-containers-with-specific-image-versions">Running Containers with Specific Image Versions</a></h3>
+<p>When running a container, specify the tag/version of the image:</p>
+<pre><code class="language-bash">docker run --name my_app_c -p 4000:4000 my_app:v1
+</code></pre>
+<p>This command runs a container from the image <code>my_app</code> with the tag <code>v1</code>.</p>
+<h2 id="example-creating-and-managing-docker-images-and-containers"><a class="header" href="#example-creating-and-managing-docker-images-and-containers">Example: Creating and Managing Docker Images and Containers</a></h2>
+<p>In this example, we'll create a Docker image for a basic web server using Flask, add a version to it, and run a container from that versioned image.</p>
+<h3 id="step-1-create-a-flask-web-server"><a class="header" href="#step-1-create-a-flask-web-server">Step 1: Create a Flask Web Server</a></h3>
+<p>First, create a Flask web server in a file named <code>app.py</code>:</p>
+<pre><code class="language-python">from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, Docker!'
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+</code></pre>
+<h3 id="step-2-create-a-dockerfile"><a class="header" href="#step-2-create-a-dockerfile">Step 2: Create a Dockerfile</a></h3>
+<p>Next, create a <code>Dockerfile</code> in the same directory as <code>app.py</code>:</p>
+<pre><code class="language-Dockerfile"># Use the official Python image
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install Flask
+RUN pip install --no-cache-dir Flask
+
+# Expose port 5000
+EXPOSE 5000
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+</code></pre>
+<h3 id="step-3-build-the-docker-image"><a class="header" href="#step-3-build-the-docker-image">Step 3: Build the Docker Image</a></h3>
+<p>Build the Docker image with a tag/version:</p>
+<pre><code class="language-bash">docker build -t my_flask_app:v1 .
+</code></pre>
+<h3 id="step-4-run-the-docker-container"><a class="header" href="#step-4-run-the-docker-container">Step 4: Run the Docker Container</a></h3>
+<p>Run a container from the versioned image:</p>
+<pre><code class="language-bash">docker run --name my_container -p 5000:5000 my_flask_app:v1
+</code></pre>
+<h3 id="step-5-access-the-web-server"><a class="header" href="#step-5-access-the-web-server">Step 5: Access the Web Server</a></h3>
+<p>Open your web browser and navigate to <code>http://localhost:5000</code> to see the message "Hello, Docker!" served by the Flask web server running in the Docker container.</p>
+<h3 id="step-6-manage-images-and-containers"><a class="header" href="#step-6-manage-images-and-containers">Step 6: Manage Images and Containers</a></h3>
+<p>You can list images and containers:</p>
+<pre><code class="language-bash">docker images
+docker ps -a
+</code></pre>
+<p>And delete them when no longer needed:</p>
+<pre><code class="language-bash">docker rm my_container
+docker image rm my_flask_app:v1
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="volumes-tutorial"><a class="header" href="#volumes-tutorial">Volumes Tutorial</a></h1>
+<p>In this tutorial, we'll dive into the concept of volumes in Docker. Volumes in Docker allow us to persist data and share information between the host machine and Docker containers. We'll learn how to implement volumes effectively in our Docker workflow.</p>
+<h2 id="introduction-to-volumes"><a class="header" href="#introduction-to-volumes">Introduction to Volumes</a></h2>
+<p>Volumes in Docker serve as a way to manage persistent data that can be shared among containers and the host machine. By using volumes, we can ensure that data remains intact even if the container is stopped or removed. This is particularly useful for scenarios where we need to preserve data generated or modified within containers.</p>
+<h2 id="step-1-understanding-the-problem"><a class="header" href="#step-1-understanding-the-problem">Step 1: Understanding the Problem</a></h2>
+<p>In the YouTube video, the presenter demonstrates an issue where changes made to the source code inside a Docker container are not reflected in the running application. This happens because Docker containers are immutable, meaning once an image is built, any changes made inside the container do not persist unless explicitly saved using volumes.</p>
+<h2 id="step-2-making-changes-to-the-dockerfile"><a class="header" href="#step-2-making-changes-to-the-dockerfile">Step 2: Making Changes to the Dockerfile</a></h2>
+<p>To address this issue, we'll modify the Dockerfile to incorporate volume mapping. Specifically, we'll ensure that our project folder on the host machine is mapped to the <code>app</code> folder inside the Docker container. Additionally, we'll manage the <code>node_modules</code> folder separately to prevent potential conflicts.</p>
+<h2 id="step-3-implementing-volume-mapping"><a class="header" href="#step-3-implementing-volume-mapping">Step 3: Implementing Volume Mapping</a></h2>
+<p>We'll update the Dockerfile and Docker run command to include volume mapping. This ensures that changes made to the project folder on the host machine are reflected inside the container.</p>
+<h2 id="step-4-testing-the-setup"><a class="header" href="#step-4-testing-the-setup">Step 4: Testing the Setup</a></h2>
+<p>Finally, we'll test our setup by making changes to the source code within the project folder and verifying that these changes are reflected in the running application without the need to rebuild the Docker image.</p>
+<h2 id="detailed-steps"><a class="header" href="#detailed-steps">Detailed Steps</a></h2>
+<ol>
+<li><strong>Update Dockerfile</strong>: Modify the Dockerfile to include instructions for installing nodemon globally and configuring the startup command to use nodemon.</li>
+<li><strong>Modify Docker Run Command</strong>: Adjust the Docker run command to include volume mapping. Map the project folder on the host machine to the <code>app</code> folder inside the container.</li>
+<li><strong>Handle Node Modules</strong>: Address potential issues with the <code>node_modules</code> folder by managing it separately using an anonymous volume.</li>
+<li><strong>Test Changes</strong>: Make changes to the source code within the project folder and verify that these changes are reflected in the running application.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="docker-compose"><a class="header" href="#docker-compose">Docker Compose</a></h1>
+<p>In this tutorial, we'll dive deep into Docker Compose, a tool that simplifies the process of defining and running multi-container Docker applications. We'll cover setting up a <code>docker-compose.yaml</code> file, building and running containers, accessing services, and cleaning up resources.</p>
+<h2 id="1-introduction-to-docker-compose"><a class="header" href="#1-introduction-to-docker-compose">1. Introduction to Docker Compose:</a></h2>
+<p>Docker Compose is a tool provided by Docker that allows you to define multi-container Docker applications in a single YAML file. It automates the process of creating and managing multiple containers, making it easier to develop, deploy, and scale complex applications.</p>
+<h2 id="2-setting-up-docker-compose-file"><a class="header" href="#2-setting-up-docker-compose-file">2. Setting up Docker Compose File:</a></h2>
+<p>Let's create a <code>docker-compose.yaml</code> file in the root directory of our project. This file will contain all the configurations for our Docker services.</p>
+<pre><code class="language-yaml">version: "3.8"
+
+services:
+  api:
+    build: ./api
+    container_name: api_container
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api:/app
+      - ./api/node_modules:/app/node_modules
+</code></pre>
+<h2 id="explanation"><a class="header" href="#explanation">Explanation:</a></h2>
+<ul>
+<li><code>version</code>: Specifies the version of Docker Compose to use. We're using version 3.8.</li>
+<li><code>services</code>: Defines the services (containers) for our project.
+<ul>
+<li><code>api</code>: Name of the service.
+<ul>
+<li><code>build</code>: Path to the Dockerfile for building the image.</li>
+<li><code>container_name</code>: Name of the container.</li>
+<li><code>ports</code>: Port mapping between host and container.</li>
+<li><code>volumes</code>: Mapping local directories to container directories.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-building-and-running-with-docker-compose"><a class="header" href="#3-building-and-running-with-docker-compose">3. Building and Running with Docker Compose:</a></h2>
+<p>Now, let's use Docker Compose to build and run our containers.</p>
+<ul>
+<li>Open your terminal in the root directory containing the <code>docker-compose.yaml</code> file.</li>
+<li>Run the following command:</li>
+</ul>
+<pre><code class="language-bash">docker-compose up
+</code></pre>
+<h2 id="explanation-1"><a class="header" href="#explanation-1">Explanation:</a></h2>
+<p>This command reads the <code>docker-compose.yaml</code> file, builds the Docker image for each service, and starts the containers.</p>
+<h2 id="4-accessing-your-services"><a class="header" href="#4-accessing-your-services">4. Accessing Your Services:</a></h2>
+<p>Once the containers are up and running, you can access your services as usual. For example, if your API service is running on port 4000, you can access it at <code>http://localhost:4000</code>.</p>
+<h2 id="5-stopping-and-cleaning-up"><a class="header" href="#5-stopping-and-cleaning-up">5. Stopping and Cleaning up:</a></h2>
+<p>To stop the containers and remove them, you can use the following command:</p>
+<pre><code class="language-bash">docker-compose down
+</code></pre>
+<h2 id="explanation-2"><a class="header" href="#explanation-2">Explanation:</a></h2>
+<p>This command stops and removes the containers, but it keeps the images and volumes intact.</p>
+<h2 id="6-cleaning-up-completely"><a class="header" href="#6-cleaning-up-completely">6. Cleaning Up Completely:</a></h2>
+<p>If you want to remove the images and volumes as well, you can use additional flags with the <code>down</code> command:</p>
+<pre><code class="language-bash">docker-compose down --rmi all -v
+</code></pre>
+<h2 id="explanation-3"><a class="header" href="#explanation-3">Explanation:</a></h2>
+<p>This command removes all images and volumes created by Docker Compose.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dockerizing-a-react-app"><a class="header" href="#dockerizing-a-react-app">Dockerizing a React App</a></h1>
+<p>In this tutorial, we'll walk through the process of dockerizing a React application using Docker Compose. Dockerizing a React app involves creating a Dockerfile to define how the image should be built, configuring a Docker Compose file to build the image and run a container, and making necessary adjustments for communication with other services.</p>
+<h2 id="step-1-set-up-the-react-app"><a class="header" href="#step-1-set-up-the-react-app">Step 1: Set Up the React App</a></h2>
+<p>For this tutorial, we'll use an existing React application named "my blog." You can download this React project from the course files on GitHub.</p>
+<h2 id="step-2-create-a-dockerignore-file"><a class="header" href="#step-2-create-a-dockerignore-file">Step 2: Create a <code>.dockerignore</code> File</a></h2>
+<p>In the root of your React application, create a <code>.dockerignore</code> file. This file tells Docker to ignore certain files or directories when building the image. In this case, we want to ignore the <code>node_modules</code> directory.</p>
+<pre><code class="language-bash">echo "node_modules" &gt; .dockerignore
+</code></pre>
+<h2 id="step-3-create-a-dockerfile"><a class="header" href="#step-3-create-a-dockerfile">Step 3: Create a <code>Dockerfile</code></a></h2>
+<p>Next, create a <code>Dockerfile</code> in the root folder of the React application. This file contains instructions for building the Docker image.</p>
+<pre><code class="language-Dockerfile"># Use Node.js as the base image
+FROM node:17-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the source code
+COPY . .
+
+# Expose port 3000
+EXPOSE 3000
+
+# Command to run the React app
+CMD ["npm", "start"]
+</code></pre>
+<h2 id="step-4-update-docker-composeyml"><a class="header" href="#step-4-update-docker-composeyml">Step 4: Update <code>docker-compose.yml</code></a></h2>
+<p>Now, let's update the <code>docker-compose.yml</code> file to include the configuration for the React app.</p>
+<pre><code class="language-yaml">version: "3"
+services:
+  api:
+    # Configuration for your API service (already existing)
+
+  my_blog:
+    build: ./my_blog
+    container_name: my_blog_c
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+</code></pre>
+<h2 id="step-5-update-api-endpoint-in-react-app"><a class="header" href="#step-5-update-api-endpoint-in-react-app">Step 5: Update API Endpoint in React App</a></h2>
+<p>If your React app communicates with an API, make sure to update the endpoint to match the service name defined in the <code>docker-compose.yml</code> file. For example:</p>
+<pre><code class="language-javascript">// Before
+const apiUrl = "http://localhost:4000/endpoint";
+
+// After
+const apiUrl = "http://api:4000/endpoint";
+</code></pre>
+<h2 id="step-6-build-and-run-the-docker-containers"><a class="header" href="#step-6-build-and-run-the-docker-containers">Step 6: Build and Run the Docker Containers</a></h2>
+<p>Navigate to the directory containing the <code>docker-compose.yml</code> file and run the following command to build and run the Docker containers:</p>
+<pre><code class="language-bash">docker-compose up
+</code></pre>
+<h2 id="step-7-verify"><a class="header" href="#step-7-verify">Step 7: Verify</a></h2>
+<p>Once the containers are up and running, you can verify the setup by accessing the React app in your browser at <code>http://localhost:3000</code>. Ensure that the React app is fetching data from the API service correctly.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dockerizing-ros2"><a class="header" href="#dockerizing-ros2">Dockerizing ROS2</a></h1>
+<h2 id="step-1-set-up-ros-2-workspace"><a class="header" href="#step-1-set-up-ros-2-workspace">Step 1: Set up ROS 2 Workspace</a></h2>
+<p>Assuming you have a ROS 2 workspace with your packages and dependencies configured, ensure that it is working correctly before proceeding.</p>
+<h2 id="step-2-create-a-dockerfile-1"><a class="header" href="#step-2-create-a-dockerfile-1">Step 2: Create a Dockerfile</a></h2>
+<p>Create a <code>Dockerfile</code> in the root directory of your ROS 2 workspace. This file will contain instructions for building your Docker image. Here's a detailed example:</p>
+<pre><code class="language-Dockerfile"># Use ROS 2 Foxy base image
+FROM ros:foxy
+
+# Install additional dependencies (if needed)
+RUN apt-get update &amp;&amp; apt-get install -y \
+    ros-foxy-desktop \
+    # Add your additional dependencies here \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Set up workspace
+WORKDIR /ros2_ws
+COPY . /ros2_ws
+
+# Build ROS 2 workspace
+RUN . /opt/ros/foxy/setup.sh &amp;&amp; \
+    colcon build --symlink-install
+
+# Source ROS 2 setup file
+RUN echo "source /ros2_ws/install/setup.bash" &gt;&gt; /root/.bashrc
+</code></pre>
+<p>Replace <code>ros:foxy</code> with the appropriate ROS 2 base image tag according to your ROS 2 version. Ensure to add any additional dependencies required by your ROS 2 packages in the <code>RUN apt-get install</code> command.</p>
+<h2 id="step-3-build-the-docker-image-1"><a class="header" href="#step-3-build-the-docker-image-1">Step 3: Build the Docker Image</a></h2>
+<p>Navigate to the directory containing your <code>Dockerfile</code> and run the following command to build your Docker image:</p>
+<pre><code class="language-bash">docker build -t my_ros2_image .
+</code></pre>
+<h2 id="step-4-run-the-docker-container-1"><a class="header" href="#step-4-run-the-docker-container-1">Step 4: Run the Docker Container</a></h2>
+<p>Once the image is built, you can run a Docker container using the following command:</p>
+<pre><code class="language-bash">docker run -it --rm my_ros2_image
+</code></pre>
+<p>This command will start a new container based on your ROS 2 image, and you will be dropped into a shell inside the container.</p>
+<h2 id="step-5-test-your-ros-2-application"><a class="header" href="#step-5-test-your-ros-2-application">Step 5: Test Your ROS 2 Application</a></h2>
+<p>Inside the Docker container, navigate to your ROS 2 workspace and run your ROS 2 nodes or launch files as you would normally. Ensure that everything works as expected within the Docker environment.</p>
+<h2 id="step-6-persisting-data-optional"><a class="header" href="#step-6-persisting-data-optional">Step 6: Persisting Data (Optional)</a></h2>
+<p>If you need to persist data between container runs, such as log files or generated data, you can use Docker volumes or bind mounts to mount host directories into the container. Modify your <code>docker run</code> command to include volume mounts as needed.</p>
+<h2 id="step-7-distribute-your-docker-image-optional"><a class="header" href="#step-7-distribute-your-docker-image-optional">Step 7: Distribute Your Docker Image (Optional)</a></h2>
+<p>Once you have verified that your ROS 2 application works as expected within the Docker container, you can distribute your Docker image to others or deploy it to cloud platforms for production use.</p>
+<p>That's it! You've successfully dockerized your ROS 2 application. Dockerizing your ROS 2 workflow provides several benefits, including portability, reproducibility, and scalability, making it easier to develop and deploy robotics applications in various environments.</p>
+<h2 id="tips--tricks"><a class="header" href="#tips--tricks">Tips &amp; Tricks</a></h2>
+<p>When containerizing an application like ROS2 (Robot Operating System 2) using Docker, organizing your folder structure optimally can help maintain clarity, ease of management, and scalability. Here's a suggested folder structure:</p>
+<pre><code class="language-sh">ros2_docker_app/
+│
+├── Dockerfile
+├── docker-compose.yml (optional, for multi-container setups)
+│
+├── app/
+│   ├── src/             # ROS2 source code
+│   ├── launch/          # ROS2 launch files
+│   ├── config/          # Configuration files
+│   └── ...
+│
+├── build/               # Build artifacts (optional, if building inside container)
+└── ...
+</code></pre>
+<p>Explanation:</p>
+<ol>
+<li>
+<p><strong>Dockerfile</strong>: This file contains instructions for building your Docker image. It specifies the base image, dependencies, environment variables, and commands needed to set up your ROS2 application within the container.</p>
+</li>
+<li>
+<p><strong>docker-compose.yml</strong> (optional): If your ROS2 application consists of multiple containers (e.g., separate containers for different nodes), you can use <code>docker-compose</code> to manage them. This YAML file defines the services, networks, and volumes needed for your multi-container setup.</p>
+</li>
+<li>
+<p><strong>app/</strong>: This directory contains your ROS2 application code.</p>
+<ul>
+<li><strong>src/</strong>: Place your ROS2 package(s) source code here. Organize packages as per ROS2 conventions.</li>
+<li><strong>launch/</strong>: Store ROS2 launch files here. Launch files define how nodes are executed and connected.</li>
+<li><strong>config/</strong>: Configuration files specific to your ROS2 application, such as YAML files defining parameters.</li>
+</ul>
+</li>
+<li>
+<p><strong>build/</strong> (optional): If you choose to build your ROS2 application inside the Docker container, you may want to have a directory to store build artifacts. This can help speed up subsequent builds by caching intermediate build layers.</p>
+</li>
+</ol>
+<p>Additional Tips:</p>
+<ul>
+<li><strong>Keep Dockerfile Minimal</strong>: Try to keep your Dockerfile as minimal as possible by using a base image that includes ROS2 and installing only additional dependencies specific to your application.</li>
+<li><strong>Use Docker Volumes</strong>: Utilize Docker volumes to mount host directories into the container, especially for development workflows. This allows you to edit code on your host machine and see changes reflected inside the container without rebuilding.</li>
+<li><strong>Separate Environments</strong>: Consider having separate Dockerfiles or Docker Compose configurations for development, testing, and production environments to manage dependencies and configurations accordingly.</li>
+<li><strong>Version Control</strong>: Ensure that your entire Docker setup, including Dockerfile(s), docker-compose.yml, and application code, is version controlled using a tool like Git. This helps in collaboration and reproducibility.</li>
+</ul>
+<p>By following this folder structure and best practices, you can efficiently containerize your ROS2 application using Docker while maintaining scalability and ease of management.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sharing-docker-images-on-docker-hub"><a class="header" href="#sharing-docker-images-on-docker-hub">Sharing Docker Images on Docker Hub</a></h1>
+<p>In this tutorial, we'll walk through the process of sharing Docker images on Docker Hub. Docker Hub is a cloud-based repository service provided by Docker for sharing container images.</p>
+<h2 id="prerequisites-1"><a class="header" href="#prerequisites-1">Prerequisites:</a></h2>
+<ul>
+<li>Basic understanding of Docker concepts.</li>
+<li>Docker installed on your local machine.</li>
+<li>Docker Hub account (you can sign up for free at <a href="https://hub.docker.com">hub.docker.com</a>).</li>
+</ul>
+<h2 id="steps"><a class="header" href="#steps">Steps:</a></h2>
+<h2 id="1-sign-up-for-docker-hub"><a class="header" href="#1-sign-up-for-docker-hub">1. Sign up for Docker Hub</a></h2>
+<ul>
+<li>Visit <a href="https://hub.docker.com">hub.docker.com</a> and sign up for a free account if you haven't already. Log in to your account.</li>
+</ul>
+<h2 id="2-create-a-repository-on-docker-hub"><a class="header" href="#2-create-a-repository-on-docker-hub">2. Create a Repository on Docker Hub</a></h2>
+<ul>
+<li>Once logged in, navigate to the dashboard.</li>
+<li>Click on the "Create Repository" button.</li>
+<li>Specify the repository details:
+<ul>
+<li><strong>Name:</strong> Choose a name for your repository (e.g., <code>my-api</code>).</li>
+<li><strong>Description:</strong> Optionally, add a description.</li>
+<li><strong>Visibility:</strong> Choose between public and private (for this tutorial, we'll keep it public).</li>
+</ul>
+</li>
+<li>Click on "Create" to create the repository.</li>
+</ul>
+<h2 id="3-build-your-docker-image"><a class="header" href="#3-build-your-docker-image">3. Build your Docker Image</a></h2>
+<ul>
+<li>
+<p>Make sure you're in the directory containing the Dockerfile for the image you want to share.</p>
+</li>
+<li>
+<p>Build the Docker image using the <code>docker build</code> command:</p>
+<pre><code>docker build -t &lt;username&gt;/&lt;repository_name&gt;:&lt;tag&gt; .
+</code></pre>
+<p>Replace <code>&lt;username&gt;</code> with your Docker Hub username, <code>&lt;repository_name&gt;</code> with the name of your repository (e.g., <code>my-api</code>), and <code>&lt;tag&gt;</code> with a tag for your image (e.g., <code>latest</code>).</p>
+</li>
+</ul>
+<h2 id="4-push-the-image-to-docker-hub"><a class="header" href="#4-push-the-image-to-docker-hub">4. Push the Image to Docker Hub</a></h2>
+<ul>
+<li>
+<p>Log in to Docker Hub from the command line:</p>
+<pre><code>docker login
+</code></pre>
+<p>Enter your Docker Hub username and password when prompted.</p>
+</li>
+<li>
+<p>Push the image to Docker Hub using the <code>docker push</code> command:</p>
+<pre><code>docker push &lt;username&gt;/&lt;repository_name&gt;:&lt;tag&gt;
+</code></pre>
+<p>Replace <code>&lt;username&gt;</code>, <code>&lt;repository_name&gt;</code>, and <code>&lt;tag&gt;</code> with the corresponding values used during image creation.</p>
+</li>
+</ul>
+<h2 id="5-verify-the-image-on-docker-hub"><a class="header" href="#5-verify-the-image-on-docker-hub">5. Verify the Image on Docker Hub</a></h2>
+<ul>
+<li>After pushing the image, navigate to your repository on Docker Hub in your web browser.</li>
+<li>You should see your pushed image listed with details like the name, tags, and last pushed time.</li>
+</ul>
+<h2 id="6-pull-and-run-the-image"><a class="header" href="#6-pull-and-run-the-image">6. Pull and Run the Image</a></h2>
+<ul>
+<li>Test the shared image by pulling it from Docker Hub to your local machine:
+<pre><code>docker pull &lt;username&gt;/&lt;repository_name&gt;:&lt;tag&gt;
+</code></pre>
+</li>
+<li>Once the image is pulled successfully, you can run it like any other Docker image:
+<pre><code>docker run &lt;username&gt;/&lt;repository_name&gt;:&lt;tag&gt;
+</code></pre>
+</li>
+</ul>
+<h2 id="additional-resources"><a class="header" href="#additional-resources">Additional Resources:</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/">Docker Documentation</a></li>
+<li><a href="https://docs.docker.com/docker-hub/">Docker Hub Documentation</a></li>
+<li><a href="https://www.youtube.com/c/Docker">Docker YouTube Channel</a> for more tutorials and guides.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
